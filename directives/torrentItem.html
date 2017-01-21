@@ -1,6 +1,22 @@
-<td class="chat-items-time">
-    {{ time }}
-</td>
-<td class="chat-item-text">
-    <b class="message-nick">{{ nick }}:</b> {{ text }}
-</td>
+<div class="row">
+    <div class="col s12 m7">
+        <div class="card-panel blue">
+            <div class="row">
+                <div class="torrent-progress">
+                    <div class="progress">
+                        <div class="determinate purple" style="width: 70%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m8">
+                    <p>{{ torrentName }}</p>
+                </div>
+                <div class="col s12 m4">
+                    <a class="red btn">x</a>
+                    <a class="green btn">dl</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
