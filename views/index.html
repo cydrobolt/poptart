@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="logo">
+            <i class="fa fa-rocket" aria-hidden="true"></i>
+            poptart
+        </h1>
+
+        <div class="torrent-progress">
+            <div class="progress">
+                <div class="determinate" style="width: 70%"></div>
+            </div>
+        </div>
+        <div class="delete-button">
+            <a class="red btn">Delete</a>
+        </div>
+        <div class="download-button">
+            <a class="green btn">Download</a>
+        </div>
+        <div class="add-button">
+            <a class="waves-effect waves-light btn">Add Torrent Link</a>
+        </div>
+    </div>
+{% endblock %}
