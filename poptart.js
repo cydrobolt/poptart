@@ -59,13 +59,7 @@ app.get(API_PREFIX + 'new_torrent', (req, res) => {
         torrents[torrentId] = torrent
 
         res.send(torrentId)
-        // torrent.files.forEach(function (file) {
-        //     // Display the file by appending it to the DOM. Supports video, audio, images, and
-        //     // more. Specify a container element (CSS selector or reference to DOM node).
-        //     file.appendTo('body')
-        // })
     })
-
 })
 
 app.get(API_PREFIX + 'torrent_progress/:torrentId', (req, res) => {
