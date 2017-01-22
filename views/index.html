@@ -47,5 +47,9 @@
 {% endblock %}
 
 {% block js %}
+<script>
+var existingTorrents = JSON.parse('{{ torrents | safe }}')
+</script>
+
 <script src="/static/js/IndexCtrl.js"></script>
 {% endblock %}

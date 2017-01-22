@@ -33,7 +33,14 @@ var getToken = (len) => {
 
 /* routes */
 app.get('/', (req, res) => {
-    res.render('index.html')
+    let mappedTorrents = _.mapValues(torrents, function(torrent) {
+        return {
+            name: torrent.name
+        }
+    })
+    console.log(mappedTorrents)
+
+    res.render('index.html', { torrents: JSON.stringify(mappedTorrents) })
 })
 
 app.param('torrentId', (req, res, next, torrentId) => {
@@ -43,6 +50,8 @@ app.param('torrentId', (req, res, next, torrentId) => {
 
 app.get(API_PREFIX + 'new_torrent', (req, res) => {
     let magnetURI = req.query.magnet
+    let magnetName = req.query.name
+
     console.log('received request to download ' + magnetURI)
     let torrentId
 
@@ -57,7 +66,10 @@ app.get(API_PREFIX + 'new_torrent', (req, res) => {
         })
 
         // save torrent pointer to master list
-        torrents[torrentId] = torrent
+        torrents[torrentId] = {
+            torrent: torrent,
+            name: magnetName
+        }
 
         res.send(torrentId)
     })
@@ -66,7 +78,7 @@ app.get(API_PREFIX + 'new_torrent', (req, res) => {
 app.get(API_PREFIX + 'torrent_progress/:torrentId', (req, res) => {
     // get torrent progress given torrent ID
     console.log('received request for progress of ', req.torrentId)
-    var torrent = torrents[req.torrentId]
+    var torrent = torrents[req.torrentId].torrent
     res.send((torrent.progress * 100).toFixed(1))
 })
 
@@ -74,14 +86,15 @@ app.get(API_PREFIX + 'remove_torrent/:torrentId', (req, res) => {
     // remove torrent
     // client.remove(<torrent>)
     console.log('its moving!' + req.torrentId)
-    var torrent = torrents[req.torrentId]
+    var torrent = torrents[req.torrentId].torrent
     torrent.destroy()
 
     res.send('torrent destroyed')
 })
 
 app.get(API_PREFIX + 'torrent_files/:torrentId', (req, res) => {
-    var torrent = torrents[req.torrentId]
+    var torrent = torrents[req.torrentId].torrent
+
     console.log(torrent.files)
     let files = _.map(torrent.files, (file) => {
         return file.name
