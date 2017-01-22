@@ -12,6 +12,9 @@
                 <div class="col s12 m6">
                     <p>{{ torrentName }}</p>
                 </div>
+                <div class="speed">
+                	<p></p>
+                </div>
                 <div class="col s12 m6">
                     <a class="green btn" ng-click="getFiles('{{torrentId}}')">
                         <i class="fa fa-download"></i>
@@ -20,6 +23,20 @@
                         <i class="fa fa-trash"></i>
                     </a>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m6">
+        <div class="card-panel pink">
+            <div class="row">
+            	<div class="col s12 m8">
+	                <div class="dl-speeds">
+	        			<p>Download Speed: <span class="dl-speed">0.0</span></p>
+	    			</div>
+	                <div class="up-speeds">
+	        			<p>Upload Speed: <span class="up-speed">0.0</span></p>
+	    			</div>
+	    		</div>
             </div>
         </div>
     </div>

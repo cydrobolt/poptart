@@ -108,4 +108,16 @@ app.get(API_PREFIX + 'torrent_files/:torrentId', (req, res) => {
     res.send(JSON.stringify(files))
 })
 
+app.get(API_PREFIX + 'torrent_download_speed/:torrentId', (req, res) => {
+    console.log('received request for dl speed of ', req.torrentId)
+    var torrent = torrents[req.torrentId].torrent
+    res.send(torrent.downloadSpeed.toFixed(1))
+})
+
+app.get(API_PREFIX + 'torrent_upload_speed/:torrentId', (req, res) => {
+    console.log('received request for up speed of ', req.torrentId)
+    var torrent = torrents[req.torrentId].torrent
+    res.send(torrent.uploadSpeed.toFixed(1))
+})
+
 export { server }

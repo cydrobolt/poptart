@@ -27,6 +27,8 @@
 
 .row{
 	color: white;
+	width: 100%;
+	display: inline-block;
 }
 
 .row-fluid {

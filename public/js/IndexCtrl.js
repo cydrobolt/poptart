@@ -16,6 +16,9 @@ poptart.directive('torrentItem', function($compile, $timeout) {
                 scope.getFiles = function() {
                 	scope.$parent.getFiles(scope.torrentId)
                 }
+                scope.postDLSpeeds = function() {
+                	scope.$parent.postDLSpeeds(scope.torrentId)
+                }
             })
         }
     }
@@ -24,6 +27,7 @@ poptart.directive('torrentItem', function($compile, $timeout) {
 poptart.controller('IndexCtrl', function($scope, $rootScope, $compile, $http) {
     $scope.torrents = {}
     $scope.progressIntervals = {}
+    $scope.downloadSpeedIntervals = {}
 
     $scope.state = {
         showLoader: false
@@ -54,6 +58,12 @@ poptart.controller('IndexCtrl', function($scope, $rootScope, $compile, $http) {
         }, 2000)
 
         $scope.progressIntervals[torrentId] = updateProgress
+
+        var downloadProgress = setInterval(function () {
+        	$scope.postDLSpeeds(torrentId, $newTorrentEl)
+        }, 2000)
+
+        $scope.downloadSpeedIntervals[torrentId] = downloadProgress
     }
 
     $scope.getTorrentCard = function(torrentId) {
@@ -115,6 +125,32 @@ poptart.controller('IndexCtrl', function($scope, $rootScope, $compile, $http) {
     			$('#files').append(element)
     		}
     	})
+    }
+
+    $scope.postDLSpeeds = function(torrentId) {
+    	$http.get('/api/v1/torrent_download_speed/' + torrentId).then(function(data) {
+    		console.log(data.data)
+    		var speed = data.data
+    		console.log("speed is" + speed)
+            var $torrentEl = $scope.getTorrentCard(torrentId)
+
+            // update percentage
+            $('.dl-speed').html(speed)
+            console.log('torrent', torrentId, 'is ', speed)
+    	})	
+    }
+
+    $scope.postUPSpeeds = function(torrentId) {
+    	$http.get('/api/v1/torrent_upload_speed/' + torrentId).then(function(data) {
+    		console.log(data.data)
+    		var speed = data.data
+    		console.log("speed is" + speed)
+            var $torrentEl = $scope.getTorrentCard(torrentId)
+
+            // update percentage
+            $('.up-speed').html(speed)
+            console.log('torrent', torrentId, 'is ', speed)
+    	})	
     }
 
     $scope.init()

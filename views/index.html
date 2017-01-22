@@ -4,7 +4,7 @@
 <div class="container ng-root" ng-controller="IndexCtrl">
     <h1 class="logo">
         <i class="fa fa-rocket" aria-hidden="true"></i>
-        poptrash
+        poptart
     </h1>
 
     <div class="loading-torrent right">
@@ -45,19 +45,15 @@
     </div>
     <div class="files" id="files">
     </div>
+    <!-- <div class="speeds" id="speeds"> 
+        <p>Download Speed: <span class="dl-speed">0.0</span></p>
+    </div> -->
 </div>
 {% endblock %}
 
 {% block js %}
 <script>
-var existingTorrents = JSON.parse('{{ torrents | safe }}')
-
-/* function clearFields() {
-    console.log('fuck')
-    document.getElementById("magnet-name").value = "";
-    document.getElementById("magnet-link").value = "";
-}
-*/
+    var existingTorrents = JSON.parse('{{ torrents | safe }}')
 </script>
 
 <script src="/static/js/IndexCtrl.js"></script>
