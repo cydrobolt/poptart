@@ -1,38 +1,52 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <div class="container">
-        <h1 class="logo">
-            <i class="fa fa-rocket" aria-hidden="true"></i>
-            poptart
-        </h1>
+<div class="container" ng-controller="IndexCtrl">
+    <h1 class="logo">
+        <i class="fa fa-rocket" aria-hidden="true"></i>
+        poptart
+    </h1>
 
-        <div class="row">
-            <div class="col s12 m9">
-                <div class="card-panel light blue" style="width: 150%:">
-                    <div class="row">
-                        <div class="torrent-progress">
-                            <div class="progress">
-                                <div class="determinate purple" style="width: 80%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col s12 m8 torrent-info">
-                            <p>filename: google.rpm</p>
-                        </div>
-                        <div class="col s12 m4">
-                           <a class="red btn" >x</a>
-                           <a class="green btn" > <i class="fa fa-cloud-download" aria-hidden="true" ></i></a>
-                            </table> 
+    <div class="row">
+        <div class="col s12 m9">
+            <div class="card-panel light blue" style="width: 150%:">
+                <div class="row">
+                    <div class="torrent-progress">
+                        <div class="progress">
+                            <div class="determinate purple"></div>
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col s12 m8 torrent-info">
+                        <p>filename: google.rpm</p>
+                    </div>
+                    <div class="col s12 m4">
+                       <a class="red btn" >x</a>
+                       <a class="green btn" > <i class="fa fa-cloud-download" aria-hidden="true" ></i></a>
+                    </div>
+
+                </div>
             </div>
         </div>
+    </div>
 
-        <div class="add-button">
-            <a class="waves-effect waves-light btn">Add Torrent Link</a>
+    <div class="add-button">
+        <a class="waves-effect waves-light btn" href="#add-torrent">Add Torrent Link</a>
+    </div>
+
+    <div id="add-torrent" class="modal">
+        <div class="modal-content">
+            <h4>Magnet Link</h4>
+            <input id="magnet-link-submit" type="text" name="magnet-link">
+        </div>
+        <div class="modal-footer" >
+            <a href="#!" ng-click="submitMagnet()" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
         </div>
     </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="/static/js/IndexCtrl.js"></script>
 {% endblock %}
