@@ -1,12 +1,15 @@
 /* global _, poptart, angular, existingTorrents */
 
-poptart.directive('torrentItem', function() {
+poptart.directive('torrentItem', function($compile) {
     return {
         scope: {
-            torrentName: '@'
+            torrentName: '@',
+            torrentId: '@',
+            deleteTorrent: '&'
         },
         replace: true,
-        templateUrl: '/directives/torrentItem.html'
+        transclude: true,
+        templateUrl: '/directives/torrentItem.html' 
     }
 })
 
@@ -31,8 +34,8 @@ poptart.controller('IndexCtrl', function($scope, $compile, $http) {
         }
     }
 
-    $scope.getTorrentEl = function (magnetName) {
-        return $compile('<div torrent-item torrent-name=\'' + magnetName + '\'></div>')($scope)
+    $scope.getTorrentEl = function (torrentId, magnetName) {
+        return $compile('<div torrent-item torrent-id=\'' + torrentId + '\' torrent-name=\'' + magnetName + '\' delete-torrent=\'deleteTorrent\'></div>')($scope)
     }
 
     $scope.appendAndPoll = function(torrentId, newTorrentEl) {
@@ -49,7 +52,6 @@ poptart.controller('IndexCtrl', function($scope, $compile, $http) {
         var magnetLink = angular.element('#magnet-link').val()
         var magnetName = angular.element('#magnet-name').val()
 
-        var newTorrentEl = $scope.getTorrentEl(magnetName)
         $scope.state.showLoader = true
 
         $http.get('/api/v1/new_torrent?magnet=' + magnetLink + '&name=' + magnetName).then(function (data) {
@@ -57,6 +59,7 @@ poptart.controller('IndexCtrl', function($scope, $compile, $http) {
             var torrentId = data.data
             console.log('setting new id for elem')
 
+            var newTorrentEl = $scope.getTorrentEl(torrentId, magnetName)
             $scope.appendAndPoll(torrentId, newTorrentEl)
             $scope.torrents.push(torrentId)
         })
@@ -76,14 +79,16 @@ poptart.controller('IndexCtrl', function($scope, $compile, $http) {
     }
 
     $scope.deleteTorrent = function(torrentId) {
+    	console.log("clicked")
     	$http.get('/api/v1/remove_torrent/' + torrentId).then(function (data) {
     		$scope.progressIntervals.clear();
     		var index = $scope.torrents.indexOf(torrentId)
     		$scope.torrents.splice(index, 1)
+    		console.log("0")
     		$('#' + torrentId).remove()
+    		console.log("1")
     		console.log("torrent " + torrentId + " removed")
     	})
-
     }
 
     $scope.downloadTorrent = function(torrentId) {
