@@ -1,4 +1,4 @@
-/* global poptart, angular */
+/* global _, poptart, angular, existingTorrents */
 
 poptart.directive('torrentItem', function() {
     return {
@@ -20,13 +20,36 @@ poptart.controller('IndexCtrl', function($scope, $compile, $http) {
 
     $scope.init = function() {
         angular.element('#add-torrent').modal()
+
+        // add existing magnet links
+        if (_.size(existingTorrents) > 0) {
+            _.forOwn(existingTorrents, function (v, k) {
+                $scope.torrents.push(k)
+                var torrentEl = $scope.getTorrentEl(v.name)
+                $scope.appendAndPoll(k, torrentEl)
+            })
+        }
+    }
+
+    $scope.getTorrentEl = function (magnetName) {
+        return $compile('<div torrent-item torrent-name=\'' + magnetName + '\'></div>')($scope)
+    }
+
+    $scope.appendAndPoll = function(torrentId, newTorrentEl) {
+        var $newTorrentEl = $(newTorrentEl).appendTo('.torrents').prop('id', torrentId)
+
+        var updateProgress = setInterval(function () {
+            $scope.getProgress(torrentId, $newTorrentEl)
+        }, 2000)
+
+        $scope.progressIntervals.push(updateProgress)
     }
 
     $scope.submitMagnet = function() {
         var magnetLink = angular.element('#magnet-link').val()
         var magnetName = angular.element('#magnet-name').val()
 
-        var newTorrentEl = $compile('<div torrent-item torrent-name=\'' + magnetName + '\'></div>')($scope)
+        var newTorrentEl = $scope.getTorrentEl(magnetName)
         $scope.state.showLoader = true
 
         $http.get('/api/v1/new_torrent?magnet=' + magnetLink + '&name=' + magnetName).then(function (data) {
@@ -34,14 +57,8 @@ poptart.controller('IndexCtrl', function($scope, $compile, $http) {
             var torrentId = data.data
             console.log('setting new id for elem')
 
-            var $newTorrentEl = $(newTorrentEl).appendTo('.torrents').prop('id', torrentId)
-
-            var updateProgress = setInterval(function () {
-                $scope.getProgress(torrentId, $newTorrentEl)
-            }, 2000)
-
+            $scope.appendAndPoll(torrentId, newTorrentEl)
             $scope.torrents.push(torrentId)
-            $scope.progressIntervals.push(updateProgress)
         })
 
         return magnetLink
