@@ -41,8 +41,9 @@ app.param('torrentId', (req, res, next, torrentId) => {
     next()
 })
 
-app.get(API_PREFIX + 'new_torrent', (req, res, magnetLink) => {
-    let magnetURI = magnetLink;
+app.get(API_PREFIX + 'new_torrent', (req, res) => {
+    let magnetURI = req.query.magnet
+    console.log('received request to download ' + magnetURI)
     let torrentId
 
     client.add(magnetURI, {}, function (torrent) {
@@ -64,6 +65,7 @@ app.get(API_PREFIX + 'new_torrent', (req, res, magnetLink) => {
 
 app.get(API_PREFIX + 'torrent_progress/:torrentId', (req, res) => {
     // get torrent progress given torrent ID
+    console.log('received request for progress of ', req.torrentId)
     var torrent = torrents[req.torrentId]
     res.send((torrent.progress * 100).toFixed(1))
 })
