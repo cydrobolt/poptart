@@ -10,13 +10,15 @@ poptart.directive('torrentItem', function($compile, $timeout) {
         templateUrl: '/directives/torrentItem.html',
         link: function (scope) {
             $timeout(function () {
-                scope.deleteTorrent = scope.$parent.deleteTorrent
+                scope.deleteTorrentEHLO = function () {
+                    scope.$parent.deleteTorrent(scope.torrentId)
+                }
             })
         }
     }
 })
 
-poptart.controller('IndexCtrl', function($scope, $compile, $http) {
+poptart.controller('IndexCtrl', function($scope, $rootScope, $compile, $http) {
     $scope.torrents = []
     $scope.progressIntervals = []
 
@@ -35,10 +37,6 @@ poptart.controller('IndexCtrl', function($scope, $compile, $http) {
                 $scope.appendAndPoll(k, torrentEl)
             })
         }
-
-        $scope.$on('yolo', function (wao) {
-            alert('wao yolo fam')
-        })
     }
 
     $scope.getTorrentEl = function (torrentId, magnetName) {
