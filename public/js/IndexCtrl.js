@@ -53,6 +53,10 @@ poptart.controller('IndexCtrl', function($scope, $rootScope, $compile, $http) {
         $scope.progressIntervals[torrentId] = updateProgress
     }
 
+    $scope.getTorrentCard = function(torrentId) {
+        return $('div[torrent-id=\'' + torrentId + '\']')
+    }
+
     $scope.submitMagnet = function() {
         var magnetLink = angular.element('#magnet-link').val()
         var magnetName = angular.element('#magnet-name').val()
@@ -76,7 +80,7 @@ poptart.controller('IndexCtrl', function($scope, $rootScope, $compile, $http) {
     $scope.getProgress = function(torrentId) {
         $http.get('/api/v1/torrent_progress/' + torrentId).then(function (perc) {
             var percComplete = perc.data
-            var $torrentEl = $('#' + torrentId)
+            var $torrentEl = $scope.getTorrentCard(torrentId)
 
             // update percentage
             $torrentEl.find('.determinate').css('width', percComplete + '%')
@@ -91,7 +95,8 @@ poptart.controller('IndexCtrl', function($scope, $rootScope, $compile, $http) {
             clearInterval($scope.progressIntervals[torrentId])
             delete $scope.torrents[torrentId]
             console.log("0")
-            $('#' + torrentId).remove()
+            console.log('removing', $scope.getTorrentCard(torrentId))
+            $scope.getTorrentCard(torrentId).remove()
             console.log("1")
             console.log("torrent " + torrentId + " removed")
         })
