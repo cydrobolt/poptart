@@ -1,15 +1,18 @@
 /* global _, poptart, angular, existingTorrents */
 
-poptart.directive('torrentItem', function($compile) {
+poptart.directive('torrentItem', function($compile, $timeout) {
     return {
         scope: {
             torrentName: '@',
-            torrentId: '@',
-            deleteTorrent: '&'
+            torrentId: '@'
         },
         replace: true,
-        transclude: true,
-        templateUrl: '/directives/torrentItem.html' 
+        templateUrl: '/directives/torrentItem.html',
+        link: function (scope) {
+            $timeout(function () {
+                scope.deleteTorrent = scope.$parent.deleteTorrent
+            })
+        }
     }
 })
 
@@ -32,6 +35,10 @@ poptart.controller('IndexCtrl', function($scope, $compile, $http) {
                 $scope.appendAndPoll(k, torrentEl)
             })
         }
+
+        $scope.$on('yolo', function (wao) {
+            alert('wao yolo fam')
+        })
     }
 
     $scope.getTorrentEl = function (torrentId, magnetName) {
@@ -79,16 +86,17 @@ poptart.controller('IndexCtrl', function($scope, $compile, $http) {
     }
 
     $scope.deleteTorrent = function(torrentId) {
-    	console.log("clicked")
-    	$http.get('/api/v1/remove_torrent/' + torrentId).then(function (data) {
-    		$scope.progressIntervals.clear();
-    		var index = $scope.torrents.indexOf(torrentId)
-    		$scope.torrents.splice(index, 1)
-    		console.log("0")
-    		$('#' + torrentId).remove()
-    		console.log("1")
-    		console.log("torrent " + torrentId + " removed")
-    	})
+        console.log("clicked")
+        console.log(torrentId)
+        $http.get('/api/v1/remove_torrent/' + torrentId).then(function (data) {
+            $scope.progressIntervals.clear()
+            var index = $scope.torrents.indexOf(torrentId)
+            $scope.torrents.splice(index, 1)
+            console.log("0")
+            $('#' + torrentId).remove()
+            console.log("1")
+            console.log("torrent " + torrentId + " removed")
+        })
     }
 
     $scope.downloadTorrent = function(torrentId) {
