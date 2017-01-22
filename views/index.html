@@ -30,7 +30,7 @@
     </div>
 
     <div class="add-button">
-        <a class="waves-effect waves-light btn" href="#add-torrent">Add Torrent Link</a>
+        <a class="waves-effect waves-light btn" href="#add-torrent" >Add Torrent Link</a>
     </div>
 
     <div id="add-torrent" class="modal">
@@ -51,6 +51,13 @@
 {% block js %}
 <script>
 var existingTorrents = JSON.parse('{{ torrents | safe }}')
+
+/* function clearFields() {
+    console.log('fuck')
+    document.getElementById("magnet-name").value = "";
+    document.getElementById("magnet-link").value = "";
+}
+*/
 </script>
 
 <script src="/static/js/IndexCtrl.js"></script>
