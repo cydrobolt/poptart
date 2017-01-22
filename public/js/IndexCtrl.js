@@ -23,11 +23,13 @@ poptart.controller('IndexCtrl', function($scope, $compile, $http) {
     }
 
     $scope.submitMagnet = function() {
-        var magnetLink = angular.element('#magnet-link-submit').val()
-        var newTorrentEl = $compile('<div torrent-item torrent-name=\'\'></div>')($scope)
+        var magnetLink = angular.element('#magnet-link').val()
+        var magnetName = angular.element('#magnet-name').val()
+
+        var newTorrentEl = $compile('<div torrent-item torrent-name=\'' + magnetName + '\'></div>')($scope)
         $scope.state.showLoader = true
 
-        $http.get('/api/v1/new_torrent?magnet=' + magnetLink).then(function (data) {
+        $http.get('/api/v1/new_torrent?magnet=' + magnetLink + '&name=' + magnetName).then(function (data) {
             $scope.state.showLoader = false
             var torrentId = data.data
             console.log('setting new id for elem')
