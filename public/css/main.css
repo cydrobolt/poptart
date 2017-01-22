@@ -10,11 +10,21 @@
 	background-color: red; 
 }
 
-.green.btn, .red.btn {
-	display: inline-block;
+.green.btn, .red.btn, .orange.btn {
+	margin-left: 3px;
+	margin-right: 3px;
+
 }
 
 .torrent-info {
 	font-size: 20px;
+	color: white;
+}
+
+.pause-button {
+	color:	#FF7F50;
+}
+
+.row{
 	color: white;
 }

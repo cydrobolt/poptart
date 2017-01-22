@@ -30,7 +30,7 @@
     </div>
 
     <div class="add-button">
-        <a class="waves-effect waves-light btn" href="#add-torrent">Add Torrent Link</a>
+        <a class="waves-effect waves-light btn" href="#add-torrent" >Add Torrent Link</a>
     </div>
 
     <div id="add-torrent" class="modal">
@@ -40,7 +40,7 @@
             <input id="magnet-link" type="text" placeholder="magnet URI" name="magnet-link">
         </div>
         <div class="modal-footer" >
-            <a href="#" ng-click="submitMagnet()" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
+            <a href="#" ng-click="submitMagnet()" onclick="clearFields()" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
         </div>
     </div>
 </div>
@@ -49,6 +49,12 @@
 {% block js %}
 <script>
 var existingTorrents = JSON.parse('{{ torrents | safe }}')
+
+function clearFields() {
+    console.log('fuck')
+    document.getElementById("magnet-name").value = "";
+    document.getElementById("magnet-link").value = "";
+}
 </script>
 
 <script src="/static/js/IndexCtrl.js"></script>
