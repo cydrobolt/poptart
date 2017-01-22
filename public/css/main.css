@@ -1,23 +1,17 @@
 @import url('https://fonts.googleapis.com/css?family=Pacifico');
 
 .logo {
-    font-family: 'Pacifico', cursive;
+	font-family: 'Pacifico', cursive;
 }
 
 .buttons { 
-  width: 100%;
-  table-layout: fixed;
-  border-collapse: collapse;
-  background-color: red; 
+	width: 100%;
+	border-collapse: collapse;
+	background-color: red; 
 }
 
 .green.btn, .red.btn {
 	display: inline-block;
-}
-
-
-.clearfix {
-	clear: both;
 }
 
 .torrent-info {

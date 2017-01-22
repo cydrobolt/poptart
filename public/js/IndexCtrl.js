@@ -58,5 +58,20 @@ poptart.controller('IndexCtrl', function($scope, $compile, $http) {
         })
     }
 
+    $scope.deleteTorrent = function(torrentId) {
+    	$http.get('/api/v1/remove_torrent/' + torrentId).then(function (data) {
+    		$scope.progressIntervals.clear();
+    		var index = $scope.torrents.indexOf(torrentId)
+    		$scope.torrents.splice(index, 1)
+    		$('#' + torrentId).remove()
+    		console.log("torrent " + torrentId + " removed")
+    	})
+
+    }
+
+    $scope.downloadTorrent = function(torrentId) {
+
+    }
+
     $scope.init()
 })
