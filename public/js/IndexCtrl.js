@@ -32,7 +32,7 @@ poptart.controller('IndexCtrl', function($scope, $rootScope, $compile, $http) {
         // add existing magnet links
         if (_.size(existingTorrents) > 0) {
             _.forOwn(existingTorrents, function (v, k) {
-                $scope.torrents.push(k)
+                $scope.torrents.push[k] = true
                 var torrentEl = $scope.getTorrentEl(v.name)
                 $scope.appendAndPoll(k, torrentEl)
             })
@@ -89,8 +89,7 @@ poptart.controller('IndexCtrl', function($scope, $rootScope, $compile, $http) {
         console.log(torrentId)
         $http.get('/api/v1/remove_torrent/' + torrentId).then(function (data) {
             clearInterval($scope.progressIntervals[torrentId])
-            var index = $scope.torrents.indexOf(torrentId)
-            $scope.torrents.splice(index, 1)
+            delete $scope.torrents[torrentId]
             console.log("0")
             $('#' + torrentId).remove()
             console.log("1")
