@@ -41,8 +41,8 @@ app.param('torrentId', (req, res, next, torrentId) => {
     next()
 })
 
-app.get(API_PREFIX + 'new_torrent', (req, res) => {
-    let magnetURI = 'magnet:?xt=urn:btih:ZOCMZQIPFFW7OLLMIC5HUB6BPCSDEOQU'
+app.get(API_PREFIX + 'new_torrent', (req, res, magnetLink) => {
+    let magnetURI = magnetLink;
     let torrentId
 
     client.add(magnetURI, {}, function (torrent) {

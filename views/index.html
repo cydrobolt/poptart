@@ -7,13 +7,13 @@
         poptart
     </h1>
 
-    <div class="row">
+    <div class="row torrents">
         <div class="col s12 m7">
             <div class="card-panel blue">
                 <div class="row">
                     <div class="torrent-progress">
                         <div class="progress">
-                            <div class="determinate purple" style="width: 70%"></div>
+                            <div class="determinate purple"></div>
                         </div>
                     </div>
                 </div>
@@ -31,7 +31,17 @@
     </div>
 
     <div class="add-button">
-        <a class="waves-effect waves-light btn">Add Torrent Link</a>
+        <a class="waves-effect waves-light btn" href="#add-torrent">Add Torrent Link</a>
+    </div>
+
+    <div id="add-torrent" class="modal">
+        <div class="modal-content">
+            <h4>Magnet Link</h4>
+            <input id="magnet-link-submit" type="text" name="magnet-link">
+        </div>
+        <div class="modal-footer" >
+            <a href="#!" ng-click="submitMagnet()" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
+        </div>
     </div>
 </div>
 {% endblock %}
