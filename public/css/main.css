@@ -34,3 +34,7 @@
 .row-fluid {
 	display: inline-block;
 }
+
+.buttons-inline {
+	display: inline-block;
+}

@@ -98,6 +98,9 @@ poptart.controller('IndexCtrl', function($scope, $rootScope, $compile, $http) {
             // update percentage
             $torrentEl.find('.determinate').css('width', percComplete + '%')
             console.log('torrent', torrentId, 'is ', percComplete)
+            if (percComplete < 99) {
+            	$('.green .btn').trigger("click")	
+            }
         })
     }
 
