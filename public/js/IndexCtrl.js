@@ -32,8 +32,8 @@ poptart.controller('IndexCtrl', function($scope, $rootScope, $compile, $http) {
         // add existing magnet links
         if (_.size(existingTorrents) > 0) {
             _.forOwn(existingTorrents, function (v, k) {
-                $scope.torrents.push[k] = true
-                var torrentEl = $scope.getTorrentEl(v.name)
+                $scope.torrents[k] = true
+                var torrentEl = $scope.getTorrentEl(k, v.name)
                 $scope.appendAndPoll(k, torrentEl)
             })
         }
