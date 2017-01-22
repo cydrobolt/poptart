@@ -25,6 +25,7 @@ let server = http.Server(app)
 /* middleware */
 app.use('/static', express.static('public'))
 app.use('/directives', express.static('directives'))
+app.use('/downloads', express.static('/tmp/webtorrent'))
 
 /* helper functions */
 var getToken = (len) => {
@@ -56,6 +57,9 @@ app.get(API_PREFIX + 'new_torrent', (req, res) => {
     let torrentId
 
     client.add(magnetURI, {}, function (torrent) {
+        // create HTTP server
+        var server = torrent.createServer()
+        server.listen(7000)
         // Got torrent metadata!
         console.log('Client is downloading:', torrent.infoHash)
 
@@ -72,6 +76,7 @@ app.get(API_PREFIX + 'new_torrent', (req, res) => {
         }
 
         res.send(torrentId)
+
     })
 })
 

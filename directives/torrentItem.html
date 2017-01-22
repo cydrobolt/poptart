@@ -13,7 +13,7 @@
                     <p>{{ torrentName }}</p>
                 </div>
                 <div class="col s12 m4">
-                    <a class="green btn">
+                    <a class="green btn" ng-click="getFiles('{{torrentId}}')">
                         <i class="fa fa-download"></i>
                     </a>
                     <a class="red btn" ng-click="deleteTorrent('{{torrentId}}')">

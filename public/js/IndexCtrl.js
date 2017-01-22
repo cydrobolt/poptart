@@ -13,6 +13,9 @@ poptart.directive('torrentItem', function($compile, $timeout) {
                 scope.deleteTorrent = function () {
                     scope.$parent.deleteTorrent(scope.torrentId)
                 }
+                scope.getFiles = function() {
+                	scope.$parent.getFiles(scope.torrentId)
+                }
             })
         }
     }
@@ -102,8 +105,16 @@ poptart.controller('IndexCtrl', function($scope, $rootScope, $compile, $http) {
         })
     }
 
-    $scope.downloadTorrent = function(torrentId) {
-
+    $scope.getFiles = function(torrentId) {
+    	$http.get('/api/v1/torrent_files/' + torrentId).then(function(data) {
+    		console.log(data.data)
+    		$('#files').append('</br><h5>Files</h5>')
+    		for (var i = 0; i < data.data.length; i++) {
+    			var element = '<a href="http://localhost:7000/' + i + '">' + data.data[i] + '</a></br>'
+    			console.log(element)
+    			$('#files').append(element)
+    		}
+    	})
     }
 
     $scope.init()
