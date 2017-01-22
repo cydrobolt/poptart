@@ -10,7 +10,7 @@ poptart.directive('torrentItem', function($compile, $timeout) {
         templateUrl: '/directives/torrentItem.html',
         link: function (scope) {
             $timeout(function () {
-                scope.deleteTorrentEHLO = function () {
+                scope.deleteTorrent = function () {
                     scope.$parent.deleteTorrent(scope.torrentId)
                 }
             })
@@ -19,8 +19,8 @@ poptart.directive('torrentItem', function($compile, $timeout) {
 })
 
 poptart.controller('IndexCtrl', function($scope, $rootScope, $compile, $http) {
-    $scope.torrents = []
-    $scope.progressIntervals = []
+    $scope.torrents = {}
+    $scope.progressIntervals = {}
 
     $scope.state = {
         showLoader: false
@@ -50,7 +50,7 @@ poptart.controller('IndexCtrl', function($scope, $rootScope, $compile, $http) {
             $scope.getProgress(torrentId, $newTorrentEl)
         }, 2000)
 
-        $scope.progressIntervals.push(updateProgress)
+        $scope.progressIntervals[torrentId] = updateProgress
     }
 
     $scope.submitMagnet = function() {
@@ -66,7 +66,8 @@ poptart.controller('IndexCtrl', function($scope, $rootScope, $compile, $http) {
 
             var newTorrentEl = $scope.getTorrentEl(torrentId, magnetName)
             $scope.appendAndPoll(torrentId, newTorrentEl)
-            $scope.torrents.push(torrentId)
+
+            $scope.torrents[torrentId] = true
         })
 
         return magnetLink
@@ -87,7 +88,7 @@ poptart.controller('IndexCtrl', function($scope, $rootScope, $compile, $http) {
         console.log("clicked")
         console.log(torrentId)
         $http.get('/api/v1/remove_torrent/' + torrentId).then(function (data) {
-            $scope.progressIntervals.clear()
+            clearInterval($scope.progressIntervals[torrentId])
             var index = $scope.torrents.indexOf(torrentId)
             $scope.torrents.splice(index, 1)
             console.log("0")
